@@ -1,14 +1,15 @@
 const express = require('express'),
     router = express.Router(),
     authController = require('../controllers/auth.controller'),
-    {check} = require('express-validator');
+    {check} = require('express-validator'),
+    auth = require('../middleware/auth');
 
 /*
 * @route  GET api/auth
 * @desc   Get logged in user
 * @access Private
 * */
-router.get('/', authController.getLoggedInUser);
+router.get('/', auth, authController.getLoggedInUser);
 
 /*
 * @route  POST api/auth

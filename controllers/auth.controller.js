@@ -4,8 +4,14 @@ const {validationResult} = require('express-validator'),
     jwt = require('jsonwebtoken'),
     User = require('../models/User');
 
-exports.getLoggedInUser = (req, res) => {
-    res.send('Getting logged in user')
+exports.getLoggedInUser = async (req, res) => {
+    try {
+        const user = await User.findById(req.user.id).select('-password'); // Exclude sending back the user password when getting the logged in user
+        res.status(200).json(user);
+    } catch(err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
 };
 
 /*
