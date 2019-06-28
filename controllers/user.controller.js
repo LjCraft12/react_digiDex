@@ -1,6 +1,8 @@
 const User = require('../models/User'),
     {validationResult} = require('express-validator'),
-    bcrypt = require('bcryptjs');
+    bcrypt = require('bcryptjs'),
+    config = require('config'),
+    jwt = require('jsonwebtoken');
 
 exports.postRegistration = async (req, res) => {
     // Check for any errors passed in to the errors array routes/users.js
@@ -31,7 +33,17 @@ exports.postRegistration = async (req, res) => {
         // Save the new user to the DB
         await user.save();
 
-        res.send('User saved')
+        // After user is saved send payload {} for creating json web token
+        const sentPayload = {
+            user: {
+                id: user.id
+            }
+        };
+
+        // Sign (initialize) jwt token
+        jwt.sign(sentPayload, config.get('jwtSecret'), {
+            expiresIn: 360000,
+        }, (err, token) => err ? console.error(err) : res.json({token}));
 
         // Catch any errors that come from the server
     } catch (err) {

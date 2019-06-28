@@ -1,3 +1,4 @@
 {
-  "mongoURI": "mongodb+srv://inventoryApi:onClickAdmin2018@university-brzxn.mongodb.net/contacts?retryWrites=true"
+  "mongoURI": "mongodb+srv://inventoryApi:onClickAdmin2018@university-brzxn.mongodb.net/contacts?retryWrites=true",
+  "jwtSecret": "CBAB340E4E"
 }
